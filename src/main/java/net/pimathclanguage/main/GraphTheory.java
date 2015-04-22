@@ -82,12 +82,12 @@ public class GraphTheory
         
         for (int loop = 0; loop < length; loop++)
         {
-            output[loop] = first[length - 1 - loop] + (withZero ? 0 : 1);
+            output[loop] = first[length - 1 - loop] + (withZero ? 0 : 1) + 'A';
         }
         
         for (int loop = 1; loop < size; loop++)
         {
-            output[loop + length - 1] = (array[loop] - 1) % symbols + (withZero ? 0 : 1);
+            output[loop + length - 1] = (array[loop] - 1) % symbols + (withZero ? 0 : 1) + 'A';
         }
         
         return output;
@@ -353,7 +353,7 @@ public class GraphTheory
             {
                 temp[pos + 1] = map.get(temp[pos]).get(temp_pos[pos]);
                 pos++;
-                if (posMax < pos)
+                if ((posMax < pos) && (pos % 1000 == 0))
                 {
                     posMax = pos;
                     System.out.println("Best found depth: " + posMax);

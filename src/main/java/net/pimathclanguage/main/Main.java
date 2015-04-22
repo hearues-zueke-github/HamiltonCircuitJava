@@ -1,10 +1,14 @@
 package net.pimathclanguage.main;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Main
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws IOException
     {
 //        System.out.println("Hello World");
         GraphTheory gt = new GraphTheory();
@@ -91,8 +95,10 @@ public class Main
         {{26},{22,23,24}},
         {{27},{25,26   }}}};
         
+        int symbols = 26;
+        int length = 4;
 //        int[][][] graph = gt.getNewGraphEveryoneWithEveryone(100);//moreGraphs[3];
-        int[][][] graph = gt.getNewGraphStringAllCombinations(26, 4);
+        int[][][] graph = gt.getNewGraphStringAllCombinations(symbols, length);
         boolean testing = true;
         //gt.printGraph(graph);
         //testing = gt.checkGraphTyp0(graph);
@@ -107,10 +113,26 @@ public class Main
         if (testing)
         {
             int[][] found = gt.getHamiltonCircuits(graph, 1);
-            gt.printFoundHamiltonCircuits(found);
+            System.out.println("1 Solution found!");
+            //gt.printFoundHamiltonCircuits(found);
             System.out.println("Convert FoundArray to StringNumberArray");
-            int[] numberArray = gt.convertStringAllCombinationsToArray(found[0], 26, 4, true);
-            System.out.println(gt.convertInt1DToString(numberArray));
+            int[] numberArray = gt.convertStringAllCombinationsToArray(found[0], symbols, length, true);
+            //System.out.println(gt.convertInt1DToString(numberArray));
+            
+            String file_path = "/home/haris/Dropbox/all_document/string_combinations/" +
+                    "sc_" + symbols + "_" + length + ".txt";
+            FileWriter writer = null;
+            
+            File file = new File(file_path);
+            file.createNewFile();
+            writer = new FileWriter(file_path);
+            
+            for (int i = 0; i < numberArray.length; i++)
+            {
+                writer.write(Integer.toString(numberArray[i]));
+                writer.write(",");
+            }
+            writer.close();
         }
     }
 }
