@@ -95,7 +95,7 @@ public class Main
         {{26},{22,23,24}},
         {{27},{25,26   }}}};
         
-        int symbols = 26;
+        int symbols = 6;
         int length = 4;
 //        int[][][] graph = gt.getNewGraphEveryoneWithEveryone(100);//moreGraphs[3];
         int[][][] graph = gt.getNewGraphStringAllCombinations(symbols, length);

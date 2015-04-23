@@ -82,12 +82,12 @@ public class GraphTheory
         
         for (int loop = 0; loop < length; loop++)
         {
-            output[loop] = first[length - 1 - loop] + (withZero ? 0 : 1) + 'A';
+            output[loop] = first[length - 1 - loop] + (withZero ? 0 : 1);// + 'A';
         }
         
         for (int loop = 1; loop < size; loop++)
         {
-            output[loop + length - 1] = (array[loop] - 1) % symbols + (withZero ? 0 : 1) + 'A';
+            output[loop + length - 1] = (array[loop] - 1) % symbols + (withZero ? 0 : 1);// + 'A';
         }
         
         return output;
