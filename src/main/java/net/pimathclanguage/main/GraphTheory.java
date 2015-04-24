@@ -328,9 +328,9 @@ public class GraphTheory
         int posMax = 0;
         int[] temp = new int[graph.length];
         int[] temp_pos = new int[graph.length];
-        System.out.println("Get HashMap map");
+//        System.out.println("Get HashMap map");
         HashMap<Integer, HashMap<Integer, Integer>> map = getMapOfGraph(graph);
-        System.out.println("Get HashMap mapSize");
+//        System.out.println("Get HashMap mapSize");
         HashMap<Integer, Integer> mapSize = getMapOfGraphSize(graph);
         
         temp[0] = graph[0][0][0];

@@ -8,9 +8,8 @@ import java.util.Arrays;
 
 public class Main
 {
-    public static void main(String[] args) throws IOException
+    public static void createStringCombinations() throws IOException
     {
-//        System.out.println("Hello World");
         GraphTheory gt = new GraphTheory();
         int[][][][] moreGraphs = 
         {{{{1},{2,3,4}},
@@ -134,5 +133,43 @@ public class Main
             }
             writer.close();
         }
+    }
+    
+    public static void calculateAGraph()
+    {
+        GraphTheory gt = new GraphTheory();
+        int[][][][] moreGraphs = 
+      {{{{1},{2,3,5}},
+        {{2},{3,1,5}},
+        {{3},{1,2,4,5}},
+        {{4},{3,5}},
+        {{5},{4,3,2,1}}}};
+
+        int[][][] graph = moreGraphs[0];
+        boolean testing = true;
+//        gt.printGraph(graph);
+//        testing = gt.checkGraphTyp0(graph);
+//        System.out.println("Graph is " + (testing ? "Type 0" : "not Type 0"));
+        
+        graph = gt.convertGraphTyp1ToTyp0(graph);
+        
+        gt.printGraph(graph);
+        testing = gt.checkGraphTyp0(graph);
+        System.out.println("Graph is " + (testing ? "Type 0" : "not Type 0"));
+        
+        if (testing)
+        {
+            int[][] found = gt.getHamiltonCircuits(graph, 100);
+            System.out.println("Solutions found!");
+            gt.printFoundHamiltonCircuits(found);
+        }
+    } 
+    
+    public static void main(String[] args) throws IOException
+    {
+//        System.out.println("Hello World");
+        Main main = new Main();
+//        main.createStringCombinations();
+        main.calculateAGraph();
     }
 }
