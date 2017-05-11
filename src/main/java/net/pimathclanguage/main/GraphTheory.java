@@ -1,6 +1,5 @@
 package net.pimathclanguage.main;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class GraphTheory
