@@ -6,10 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class Main
-{
-    public static void createStringCombinations() throws IOException
-    {
+public class Main {
+    public static void createStringCombinations() throws IOException {
         GraphTheory gt = new GraphTheory();
         int[][][][] moreGraphs = 
         {{{{1},{2,3,4}},
@@ -109,8 +107,7 @@ public class Main
         //testing = gt.checkGraphTyp0(graph);
         System.out.println("Graph is " + (testing ? "Type 0" : "not Type 0"));
         
-        if (testing)
-        {
+        if (testing) {
             int[][] found = gt.getHamiltonCircuits(graph, 1);
             System.out.println("1 Solution found!");
             //gt.printFoundHamiltonCircuits(found);
@@ -126,8 +123,7 @@ public class Main
             file.createNewFile();
             writer = new FileWriter(file_path);
             
-            for (int i = 0; i < numberArray.length; i++)
-            {
+            for (int i = 0; i < numberArray.length; i++) {
                 writer.write(Integer.toString(numberArray[i]));
                 writer.write(",");
             }
@@ -143,30 +139,35 @@ public class Main
         {{2},{3,1,5}},
         {{3},{1,2,4,5}},
         {{4},{3,5}},
-        {{5},{4,3,2,1}}}};
+        {{5},{4,3,2,1}}},
+       {{{ 1        },{    2, 3}},
+        {{    14    },{13,   15}},
+        {{        27},{25,26   }},
+        {{    10, 19},{ 1, 2, 3}},
+        {{ 2, 11, 20},{ 4, 5, 6}},
+        {{ 3, 12, 21},{ 7, 8, 9}},
+        {{ 4, 13, 22},{10,11,12}},
+        {{ 5,     23},{13,14,15}},
+        {{ 6, 15, 24},{16,17,18}},
+        {{ 7, 16, 25},{19,20,21}},
+        {{ 8, 17, 26},{22,23,24}},
+        {{ 9, 18    },{25,26,27}}}};
 
-        int[][][] graph = moreGraphs[0];
-        boolean testing = true;
-//        gt.printGraph(graph);
-//        testing = gt.checkGraphTyp0(graph);
-//        System.out.println("Graph is " + (testing ? "Type 0" : "not Type 0"));
-        
+        int[][][] graph = moreGraphs[1];
         graph = gt.convertGraphTyp1ToTyp0(graph);
         
         gt.printGraph(graph);
-        testing = gt.checkGraphTyp0(graph);
+        boolean testing = gt.checkGraphTyp0(graph);
         System.out.println("Graph is " + (testing ? "Type 0" : "not Type 0"));
         
-        if (testing)
-        {
-            int[][] found = gt.getHamiltonCircuits(graph, 100);
+        if (testing) {
+            int[][] found = gt.getHamiltonCircuits(graph, 6);
             System.out.println("Solutions found!");
             gt.printFoundHamiltonCircuits(found);
         }
     } 
     
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException {
 //        System.out.println("Hello World");
         Main main = new Main();
 //        main.createStringCombinations();
