@@ -67,25 +67,14 @@ public class GraphTheory
     {
         int size = array.length;
         int[] output = new int[size];
-        // int[] output = new int[size + length - 1];
-        
+
         int[] first = new int[length];
-        // array[0]--;
-        
-        // for (int loop = 0; loop < length; loop++) {
-        //     first[loop] = array[0] % symbols;
-        //     array[0] /= symbols;
-        // }
-        
-        // for (int loop = 0; loop < length; loop++) {
-        //     output[loop] = first[length - 1 - loop] + (withZero ? 0 : 1);// + 'A';
-        // }
+
         for (int loop = 0; loop < length-1; loop++) {
             output[loop] = (array[size-length+1+loop]+symbols-1) % symbols;
         }
         for (int loop = 0; loop < size-length+1; loop++) {
-            output[length-1+loop] = (array[loop]+symbols-1) % symbols + (withZero ? 0 : 1);// + 'A';
-            // output[loop + length - 1] = (array[loop] - 1) % symbols + (withZero ? 0 : 1);// + 'A';
+            output[length-1+loop] = (array[loop]+symbols-1) % symbols + (withZero ? 0 : 1);
         }
         
         return output;
@@ -99,6 +88,39 @@ public class GraphTheory
         }
         
         return output;
+    }
+
+    public int[] getStringCombinationLength2(int symbols) {
+        int[] combination = new int[symbols*symbols];
+
+        int pos = 0;
+        for (int a1 = 0; a1 < symbols; a1++) {
+            combination[pos++] = a1;
+            for (int a2 = a1+1; a2 < symbols; a2++) {
+                combination[pos++] = a1;
+                combination[pos++] = a2;
+            }
+        }
+
+        return combination;
+    }
+
+    public int[] getStringCombinationLength3(int symbols) {
+        int[] combination = new int[symbols*symbols*symbols];
+
+        int pos = 0;
+        for (int a1 = 0; a1 < symbols; a1++) {
+            combination[pos++] = a1;
+            for (int a2 = a1; a2 < symbols; a2++) {
+                for (int a3 = a1+1; a3 < symbols; a3++) {
+                    combination[pos++] = a1;
+                    combination[pos++] = a2;
+                    combination[pos++] = a3;
+                }
+            }
+        }
+
+        return combination;
     }
     
     public boolean checkGraphTyp0(int[][][] graph) {

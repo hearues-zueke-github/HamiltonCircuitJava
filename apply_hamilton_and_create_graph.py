@@ -4,25 +4,39 @@ import numpy as np
 
 from os.path import expanduser
 from subprocess import call
+from time import time
 
 home_path = expanduser("~")
 
-for symbols in range(2, 7):
-    for length in range(2, 6):
-        call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo", str(symbols), str(length)])
+# for symbols in range(2, 7):
+#     for length in range(2, 6):
+#         call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo", str(symbols), str(length)])
 
-folder_path = home_path+"/Documents/string_combinations"
-fout = open("allcombinations_together.txt", "w")
+start_graph = time()
+for symbols in range(3, 40):
+        call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo", str(symbols), str(3)])
+end_graph = time()
 
-for length in range(2, 6):
-    fout.write("length: {}\n".format(length))
-    for symbols in range(2, 7):
-        fout.write("  symbols: {}\n".format(symbols))
-        with open(folder_path+"/sc_{}_{}.txt".format(symbols, length), "r") as f:
-            fout.write(f.readline())
-    fout.write("\n")
+start_determ = time()
+for symbols in range(3, 40):
+        call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo2", str(symbols), str(3)])
+end_determ = time()
 
-fout.close()
+print("Taken time for graph:         {:.5f}s".format(end_graph-start_graph))
+print("Taken time for deterministic: {:.5f}s".format(end_determ-start_determ))
+
+# folder_path = home_path+"/Documents/string_combinations"
+# fout = open("allcombinations_together.txt", "w")
+
+# for length in range(2, 6):
+#     fout.write("length: {}\n".format(length))
+#     for symbols in range(2, 7):
+#         fout.write("  symbols: {}\n".format(symbols))
+#         with open(folder_path+"/sc_{}_{}.txt".format(symbols, length), "r") as f:
+#             fout.write(f.readline())
+#     fout.write("\n")
+
+# fout.close()
 
 # symbols = 3
 # length = 4

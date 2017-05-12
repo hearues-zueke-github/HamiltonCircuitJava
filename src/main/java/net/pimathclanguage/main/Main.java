@@ -1,5 +1,7 @@
 package net.pimathclanguage.main;
 
+import lombok.core.configuration.FileSystemSourceCache;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -7,7 +9,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Main {
-    public static void createStringCombinations(int symbols, int length) {
+    public static void createStringCombinations(int symbols, int length, boolean useDeterministicFunction) {
         GraphTheory gt = new GraphTheory();
         int[][][][] moreGraphs = 
         {{{{1},{2,3,4}},
@@ -93,12 +95,27 @@ public class Main {
         {{27},{25,26   }}}};
         
         int[][][] graph = gt.getNewGraphStringAllCombinations(symbols, length);
-        int[][] foundHamiltonCycles = gt.getHamiltonCircuits(graph, 1);
+        int[][] foundHamiltonCycles;
+        if (!useDeterministicFunction) {
+            foundHamiltonCycles = gt.getHamiltonCircuits(graph, 1);
+        } else {
+            if (length == 2) {
+                System.out.println("GOT HERE!!! 222");
+                foundHamiltonCycles = new int[1][];
+                foundHamiltonCycles[0] = gt.getStringCombinationLength2(symbols);
+            } else if (length == 3) {
+                System.out.println("GOT HERE!!! 333");
+                foundHamiltonCycles = new int[1][];
+                foundHamiltonCycles[0] = gt.getStringCombinationLength3(symbols);
+            } else {
+                foundHamiltonCycles = gt.getHamiltonCircuits(graph, 1);
+            }
+        }
         System.out.println("1 Solution found!");
         System.out.println("Convert FoundArray to StringNumberArray");
 
         String folder_path = System.getProperty("user.home")+"/Documents/string_combinations";
-        String file_path = folder_path+"/sc_"+symbols+"_"+length+".txt";
+        String file_path = folder_path+"/sc_"+symbols+"_"+length+(useDeterministicFunction?"_determ.":"")+".txt";
 
         try {
             File folder = new File(folder_path);
@@ -106,7 +123,12 @@ public class Main {
             FileWriter writer = new FileWriter(file_path);
             boolean withZero = true;
             for (int[] cycle: foundHamiltonCycles) {
-                int[] numberArray = gt.convertStringAllCombinationsToArray(cycle, symbols, length, withZero);
+                int[] numberArray;
+                if (!useDeterministicFunction) {
+                    numberArray = gt.convertStringAllCombinationsToArray(cycle, symbols, length, withZero);
+                } else {
+                    numberArray = foundHamiltonCycles[0];
+                }
                 writer.write(Integer.toString(numberArray[0]));
                 for (int i = 1; i < numberArray.length; i++) {
                     writer.write(""+Integer.toString(numberArray[i]));
@@ -163,7 +185,8 @@ public class Main {
 
         String usage = "usages:\n" +
                 "  <program> allcombinations <symbols> <length>\n" +
-                "  <program> getstringcombo <symbols> <length>";
+                "  <program> getstringcombo <symbols> <length>\n" +
+                "  <program> getstringcombo2 <symbols> <length>";
 
         if (args.length < 3) {
             System.out.println(usage);
@@ -192,7 +215,9 @@ public class Main {
         if (modus.equals("allcombinations")) {
 //        main.calculateAGraph();
         } else if (modus.equals("getstringcombo")) {
-            main.createStringCombinations(symbols, length);
+            main.createStringCombinations(symbols, length, false);
+        } else if (modus.equals("getstringcombo2")) {
+            main.createStringCombinations(symbols, length, true);
         } else {
             System.out.println("2nd argument is wrong!");
             System.out.println(usage);
