@@ -8,24 +8,31 @@ from time import time
 
 home_path = expanduser("~")
 
-# for symbols in range(2, 7):
-#     for length in range(2, 6):
-#         call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo", str(symbols), str(length)])
+def save_one_string_combination(symbols, length):
+    call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo", str(symbols), str(length)])
 
-length = 4
+def save_some_string_combinations():
+    for symbols in range(2, 7):
+        for length in range(2, 6):
+            call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo", str(symbols), str(length)])
 
-start_graph = time()
-for symbols in range(2, 15):
-        call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo", str(symbols), str(length)])
-end_graph = time()
+def test_brute_force_vs_deterministic_search():
+    length = 5
 
-start_determ = time()
-for symbols in range(2, 15):
-        call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombodeter", str(symbols), str(length)])
-end_determ = time()
+    start_graph = time()
+    for symbols in range(10, 11):
+            call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo", str(symbols), str(length)])
+    end_graph = time()
 
-print("Taken time for graph:         {:.5f}s".format(end_graph-start_graph))
-print("Taken time for deterministic: {:.5f}s".format(end_determ-start_determ))
+    start_determ = time()
+    for symbols in range(10, 11):
+            call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombodeter", str(symbols), str(length)])
+    end_determ = time()
+
+    print("Taken time for graph:         {:.5f}s".format(end_graph-start_graph))
+    print("Taken time for deterministic: {:.5f}s".format(end_determ-start_determ))
+
+save_one_string_combination(4, 6)
 
 # folder_path = home_path+"/Documents/string_combinations"
 # fout = open("allcombinations_together.txt", "w")

@@ -108,8 +108,11 @@ public class Main {
                 System.out.println("GOT HERE!!! 333");
                 foundHamiltonCycles[0] = gt.getStringCombinationLength3(symbols);
             } else if (length == 4) {
-                System.out.println("GOT HERE!!! 333");
+                System.out.println("GOT HERE!!! 444444");
                 foundHamiltonCycles[0] = gt.getStringCombinationLength4(symbols);
+            } else if (length == 5) {
+                System.out.println("GOT HERE!!! 55555555555");
+                foundHamiltonCycles[0] = gt.getStringCombinationLength5(symbols);
             } else {
                 foundHamiltonCycles = gt.getHamiltonCircuits(graph, 1);
             }

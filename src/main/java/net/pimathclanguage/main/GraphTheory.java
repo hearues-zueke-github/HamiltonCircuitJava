@@ -154,6 +154,48 @@ public class GraphTheory
 
         return combination;
     }
+
+    public int[] getStringCombinationLength5(int symbols) {
+        int[] combination = new int[symbols*symbols*symbols*symbols*symbols];
+
+        int pos = 0;
+        for (int a1 = 0; a1 < symbols; a1++) {
+            combination[pos++] = a1;
+            for (int a2 = a1; a2 < symbols; a2++) {
+                for (int a4 = a2; a4 < symbols; a4++) {
+                    for (int a5 = a1+1; a5 < symbols; a5++) {
+                        combination[pos++] = a1;
+                        combination[pos++] = a2;
+                        combination[pos++] = a1;
+                        combination[pos++] = a4;
+                        combination[pos++] = a5;
+                    }
+                }
+
+                for (int a3 = a1+1; a3 < symbols; a3++) {
+                    for (int a5 = a2+1; a5 < symbols; a5++) {
+                        combination[pos++] = a1;
+                        combination[pos++] = a2;
+                        combination[pos++] = a3;
+                        combination[pos++] = a1;
+                        combination[pos++] = a5;
+                    }
+
+                    for (int a4 = a1+1; a4 < symbols; a4++) {
+                        for (int a5 = a1+1; a5 < symbols; a5++) {
+                            combination[pos++] = a1;
+                            combination[pos++] = a2;
+                            combination[pos++] = a3;
+                            combination[pos++] = a4;
+                            combination[pos++] = a5;
+                        }
+                    }
+                }
+            }
+        }
+
+        return combination;
+    }
     
     public boolean checkGraphTyp0(int[][][] graph) {
         // Check if anything is null!
