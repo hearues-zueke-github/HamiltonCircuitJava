@@ -12,14 +12,16 @@ home_path = expanduser("~")
 #     for length in range(2, 6):
 #         call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo", str(symbols), str(length)])
 
+length = 4
+
 start_graph = time()
-for symbols in range(3, 40):
-        call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo", str(symbols), str(3)])
+for symbols in range(2, 15):
+        call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo", str(symbols), str(length)])
 end_graph = time()
 
 start_determ = time()
-for symbols in range(3, 40):
-        call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombo2", str(symbols), str(3)])
+for symbols in range(2, 15):
+        call(["java", "-jar", "target/HamiltonCircuitSearch-0.2.3.jar", "getstringcombodeter", str(symbols), str(length)])
 end_determ = time()
 
 print("Taken time for graph:         {:.5f}s".format(end_graph-start_graph))

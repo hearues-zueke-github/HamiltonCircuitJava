@@ -122,6 +122,38 @@ public class GraphTheory
 
         return combination;
     }
+
+    public int[] getStringCombinationLength4(int symbols) {
+        int[] combination = new int[symbols*symbols*symbols*symbols];
+
+        int pos = 0;
+        for (int a1 = 0; a1 < symbols; a1++) {
+            combination[pos++] = a1;
+            for (int a2 = a1; a2 < symbols; a2++) {
+                if (a2 > a1) {
+                    combination[pos++] = a1;
+                    combination[pos++] = a2;
+
+                }
+                for (int a4 = a2+1; a4 < symbols; a4++) {
+                    combination[pos++] = a1;
+                    combination[pos++] = a2;
+                    combination[pos++] = a1;
+                    combination[pos++] = a4;
+                }
+                for (int a3 = a1+1; a3 < symbols; a3++) {
+                    for (int a4 = a1+1; a4 < symbols; a4++) {
+                        combination[pos++] = a1;
+                        combination[pos++] = a2;
+                        combination[pos++] = a3;
+                        combination[pos++] = a4;
+                    }
+                }
+            }
+        }
+
+        return combination;
+    }
     
     public boolean checkGraphTyp0(int[][][] graph) {
         // Check if anything is null!
@@ -343,7 +375,7 @@ public class GraphTheory
             temp_pos[loop] = -1;
         }
         
-        System.out.println("Do the search");
+        // System.out.println("Do the search");
         while (pos > -1) {
             temp_pos[pos]++;
             if (temp_pos[pos] >= mapSize.get(temp[pos])) {
@@ -354,7 +386,7 @@ public class GraphTheory
                 pos++;
                 if ((posMax < pos) && (pos % 1000 == 0)) {
                     posMax = pos;
-                    System.out.println("Best found depth: " + posMax);
+                    // System.out.println("Best found depth: " + posMax);
                 }
                 if (pos >= temp.length - 1) {
                     boolean isFound = false;

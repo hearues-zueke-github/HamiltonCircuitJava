@@ -93,20 +93,23 @@ public class Main {
         {{25},{19,20,21}},
         {{26},{22,23,24}},
         {{27},{25,26   }}}};
-        
+    
+        System.out.println(String.format("symbols: %d, length: %d", symbols, length));
         int[][][] graph = gt.getNewGraphStringAllCombinations(symbols, length);
         int[][] foundHamiltonCycles;
         if (!useDeterministicFunction) {
             foundHamiltonCycles = gt.getHamiltonCircuits(graph, 1);
         } else {
+            foundHamiltonCycles = new int[1][];
             if (length == 2) {
                 System.out.println("GOT HERE!!! 222");
-                foundHamiltonCycles = new int[1][];
                 foundHamiltonCycles[0] = gt.getStringCombinationLength2(symbols);
             } else if (length == 3) {
                 System.out.println("GOT HERE!!! 333");
-                foundHamiltonCycles = new int[1][];
                 foundHamiltonCycles[0] = gt.getStringCombinationLength3(symbols);
+            } else if (length == 4) {
+                System.out.println("GOT HERE!!! 333");
+                foundHamiltonCycles[0] = gt.getStringCombinationLength4(symbols);
             } else {
                 foundHamiltonCycles = gt.getHamiltonCircuits(graph, 1);
             }
@@ -216,7 +219,7 @@ public class Main {
 //        main.calculateAGraph();
         } else if (modus.equals("getstringcombo")) {
             main.createStringCombinations(symbols, length, false);
-        } else if (modus.equals("getstringcombo2")) {
+        } else if (modus.equals("getstringcombodeter")) {
             main.createStringCombinations(symbols, length, true);
         } else {
             System.out.println("2nd argument is wrong!");
