@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Main {
-    public static void createStringCombinations() throws IOException {
+    public static void createStringCombinations(int symbols, int length) {
         GraphTheory gt = new GraphTheory();
         int[][][][] moreGraphs = 
         {{{{1},{2,3,4}},
@@ -92,47 +92,38 @@ public class Main {
         {{26},{22,23,24}},
         {{27},{25,26   }}}};
         
-        int symbols = 6;
-        int length = 4;
-//        int[][][] graph = gt.getNewGraphEveryoneWithEveryone(100);//moreGraphs[3];
+//        int symbols = 3;
+//        int length = 3;
         int[][][] graph = gt.getNewGraphStringAllCombinations(symbols, length);
-        boolean testing = true;
-        //gt.printGraph(graph);
-        //testing = gt.checkGraphTyp0(graph);
-        System.out.println("Graph is " + (testing ? "Type 0" : "not Type 0"));
-        
-        graph = gt.convertGraphTyp1ToTyp0(graph);
-        
-        //gt.printGraph(graph);
-        //testing = gt.checkGraphTyp0(graph);
-        System.out.println("Graph is " + (testing ? "Type 0" : "not Type 0"));
-        
-        if (testing) {
-            int[][] found = gt.getHamiltonCircuits(graph, 1);
-            System.out.println("1 Solution found!");
-            //gt.printFoundHamiltonCircuits(found);
-            System.out.println("Convert FoundArray to StringNumberArray");
-            int[] numberArray = gt.convertStringAllCombinationsToArray(found[0], symbols, length, true);
-            //System.out.println(gt.convertInt1DToString(numberArray));
-            
-            String file_path = "/home/haris/Dropbox/all_document/string_combinations/" +
-                    "sc_" + symbols + "_" + length + ".txt";
-            FileWriter writer = null;
-            
-            File file = new File(file_path);
-            file.createNewFile();
-            writer = new FileWriter(file_path);
-            
-            for (int i = 0; i < numberArray.length; i++) {
-                writer.write(Integer.toString(numberArray[i]));
-                writer.write(",");
+//        graph = gt.mixGraph(graph);
+        int[][] foundHamiltonCycles = gt.getHamiltonCircuits(graph, 2);
+        System.out.println("1 Solution found!");
+        System.out.println("Convert FoundArray to StringNumberArray");
+
+        String folder_path = System.getProperty("user.home")+"/Documents/string_combinations";
+        String file_path = folder_path+"/sc_"+symbols+"_"+length+".txt";
+
+        try {
+            File folder = new File(folder_path);
+            folder.mkdirs();
+            FileWriter writer = new FileWriter(file_path);
+            boolean withZero = true;
+//            gt.printFoundHamiltonCircuits(foundHamiltonCycles);
+            for (int[] cycle: foundHamiltonCycles) {
+                int[] numberArray = gt.convertStringAllCombinationsToArray(cycle, symbols, length, withZero);
+                writer.write(Integer.toString(numberArray[0]));
+                for (int i = 1; i < numberArray.length; i++) {
+                    writer.write(","+Integer.toString(numberArray[i]));
+                }
+                writer.write("\n");
             }
             writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     
-    public static void calculateAGraph()
-    {
+    public static void calculateAGraph() {
         GraphTheory gt = new GraphTheory();
         int[][][][] moreGraphs = 
       {{{{1},{2,3,5}},
@@ -151,7 +142,11 @@ public class Main {
         {{ 6, 15, 24},{16,17,18}},
         {{ 7, 16, 25},{19,20,21}},
         {{ 8, 17, 26},{22,23,24}},
-        {{ 9, 18    },{25,26,27}}}};
+        {{ 9, 18    },{25,26,27}}},
+       {{{1}, {2, 3, 4}},
+        {{2}, {3, 4, 1}},
+        {{3}, {4, 1, 2}},
+        {{4}, {1, 2, 3}}}};
 
         int[][][] graph = moreGraphs[1];
         graph = gt.convertGraphTyp1ToTyp0(graph);
@@ -161,16 +156,53 @@ public class Main {
         System.out.println("Graph is " + (testing ? "Type 0" : "not Type 0"));
         
         if (testing) {
-            int[][] found = gt.getHamiltonCircuits(graph, 6);
+            int[][] found = gt.getHamiltonCircuits(graph, 4);
             System.out.println("Solutions found!");
             gt.printFoundHamiltonCircuits(found);
         }
     } 
     
     public static void main(String[] args) throws IOException {
-//        System.out.println("Hello World");
         Main main = new Main();
-//        main.createStringCombinations();
-        main.calculateAGraph();
+
+        String usage = "usages:\n" +
+                "  <program> allcombinations <symbols> <length>\n" +
+                "  <program> getstringcombo <symbols> <length>";
+
+        if (args.length < 3) {
+            System.out.println(usage);
+            return;
+        }
+
+        String modus = args[0];
+        String symobolsStr = args[1];
+        String lengthStr = args[2];
+
+        int symbols;
+        int length;
+        try {
+            symbols = Integer.valueOf(symobolsStr);
+        } catch (Exception e) {
+            System.out.println("Input for symbols is not a Number!");
+            return;
+        }
+        try {
+            length = Integer.valueOf(lengthStr);
+        } catch (Exception e) {
+            System.out.println("Input for length is not a Number!");
+            return;
+        }
+
+        if (modus.equals("allcombinations")) {
+//        main.calculateAGraph();
+        } else if (modus.equals("getstringcombo")) {
+            main.createStringCombinations(symbols, length);
+        } else {
+            System.out.println("2nd argument is wrong!");
+            System.out.println(usage);
+            return;
+        }
+
+        return;
     }
 }

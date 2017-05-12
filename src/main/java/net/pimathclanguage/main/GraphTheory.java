@@ -3,6 +3,7 @@ package net.pimathclanguage.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class GraphTheory
 {
@@ -266,6 +267,38 @@ public class GraphTheory
             System.out.print("\n");
         }
     }
+
+    private int[] getMixedIndices(int length) {
+        int[] idxs = new int[length];
+
+        for (int i = 0; i < length; i++) {
+            idxs[i] = i;
+        }
+
+        Random rand = new Random();
+        for (int i = 0; i < length*5; i++) {
+            int idx1 = rand.nextInt(length);
+            int idx2 = (idx1 + rand.nextInt(length-1)) % length;
+
+            int t = idxs[idx1];
+            idxs[idx1] = idxs[idx2];
+            idxs[idx2] = t;
+        }
+
+        return idxs;
+    }
+
+    public int[][][] mixGraph(int[][][] graph) {
+        int[][][] newGraph = new int[graph.length][][];
+
+        int length = graph.length;
+        int[] idxs = getMixedIndices(length);
+        for (int i = 0; i < length; i++) {
+            newGraph[i] = graph[idxs[i]];
+        }
+
+        return newGraph;
+    }
     
     public void printFoundHamiltonCircuits(int[][] found)
     {
@@ -329,7 +362,7 @@ public class GraphTheory
                         }
                     }
 
-                    if (isFound && !isDuplication(temp, pos)) {
+                    if (isFound && !isDuplicationUntilPos(temp, pos)) {
                         foundCircuits[found] = deepcopyInt1D(temp);
                         found++;
                         if (found >= amount) {
@@ -338,7 +371,7 @@ public class GraphTheory
                     }
 
                     pos--;
-                } else if (isDuplication(temp, pos)) {
+                } else if (isDuplicationUntilPos(temp, pos)) {
                     pos--;
                 }
             }
@@ -438,6 +471,19 @@ public class GraphTheory
             }
         }
         for (int loop = pos+1; loop < array.length; loop++) {
+            if (val == array[loop]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isDuplicationUntilPos(int[] array, int pos) {
+        if (pos >= array.length || pos < 0) {
+            return false;
+        }
+        int val = array[pos];
+        for (int loop = 0; loop < pos; loop++) {
             if (val == array[loop]) {
                 return true;
             }
