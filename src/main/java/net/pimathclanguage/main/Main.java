@@ -92,11 +92,8 @@ public class Main {
         {{26},{22,23,24}},
         {{27},{25,26   }}}};
         
-//        int symbols = 3;
-//        int length = 3;
         int[][][] graph = gt.getNewGraphStringAllCombinations(symbols, length);
-//        graph = gt.mixGraph(graph);
-        int[][] foundHamiltonCycles = gt.getHamiltonCircuits(graph, 2);
+        int[][] foundHamiltonCycles = gt.getHamiltonCircuits(graph, 1);
         System.out.println("1 Solution found!");
         System.out.println("Convert FoundArray to StringNumberArray");
 
@@ -108,12 +105,11 @@ public class Main {
             folder.mkdirs();
             FileWriter writer = new FileWriter(file_path);
             boolean withZero = true;
-//            gt.printFoundHamiltonCircuits(foundHamiltonCycles);
             for (int[] cycle: foundHamiltonCycles) {
                 int[] numberArray = gt.convertStringAllCombinationsToArray(cycle, symbols, length, withZero);
                 writer.write(Integer.toString(numberArray[0]));
                 for (int i = 1; i < numberArray.length; i++) {
-                    writer.write(","+Integer.toString(numberArray[i]));
+                    writer.write(""+Integer.toString(numberArray[i]));
                 }
                 writer.write("\n");
             }

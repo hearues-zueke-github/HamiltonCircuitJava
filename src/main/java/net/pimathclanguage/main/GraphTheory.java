@@ -66,22 +66,26 @@ public class GraphTheory
     public int[] convertStringAllCombinationsToArray(int[] array, int symbols, int length, boolean withZero)
     {
         int size = array.length;
-        int[] output = new int[size + length - 1];
+        int[] output = new int[size];
+        // int[] output = new int[size + length - 1];
         
         int[] first = new int[length];
-        array[0]--;
+        // array[0]--;
         
-        for (int loop = 0; loop < length; loop++) {
-            first[loop] = array[0] % symbols;
-            array[0] /= symbols;
+        // for (int loop = 0; loop < length; loop++) {
+        //     first[loop] = array[0] % symbols;
+        //     array[0] /= symbols;
+        // }
+        
+        // for (int loop = 0; loop < length; loop++) {
+        //     output[loop] = first[length - 1 - loop] + (withZero ? 0 : 1);// + 'A';
+        // }
+        for (int loop = 0; loop < length-1; loop++) {
+            output[loop] = (array[size-length+1+loop]+symbols-1) % symbols;
         }
-        
-        for (int loop = 0; loop < length; loop++) {
-            output[loop] = first[length - 1 - loop] + (withZero ? 0 : 1);// + 'A';
-        }
-        
-        for (int loop = 1; loop < size; loop++) {
-            output[loop + length - 1] = (array[loop] - 1) % symbols + (withZero ? 0 : 1);// + 'A';
+        for (int loop = 0; loop < size-length+1; loop++) {
+            output[length-1+loop] = (array[loop]+symbols-1) % symbols + (withZero ? 0 : 1);// + 'A';
+            // output[loop + length - 1] = (array[loop] - 1) % symbols + (withZero ? 0 : 1);// + 'A';
         }
         
         return output;
@@ -175,17 +179,11 @@ public class GraphTheory
         for (int pos1 = 0; pos1 < graph.length; pos1++) {
             for (int pos2 = 1; pos2 < graph[pos1].length; pos2++) {
                 for (int pos3 = 0; pos3 < graph[pos1][pos2].length; pos3++) {
-                    boolean isThere = false;
                     for (int pos4 = 0; pos4 < graph.length; pos4++) {
                         if (graph[pos1][pos2][pos3] == graph[pos4][0][0]) {
-                            isThere = true;
-                            break;
+                            System.out.println("Failed test 5");
+                            return false;
                         }
-                    }
-                    
-                    if (!isThere) {
-                        System.out.println("Failed test 5");
-                        return false;
                     }
                 }
             }
@@ -194,23 +192,13 @@ public class GraphTheory
         // 2nd most important Test!!!
         // check, if every V_begin can be found anywhere in V_end
         for (int pos1 = 0; pos1 < graph.length; pos1++) {
-            boolean isThere = false;
-            
             for (int pos2 = 0; pos2 < graph.length; pos2++) {
                 for (int pos3 = 0; pos3 < graph[pos2][1].length; pos3++) {
                     if (graph[pos1][0][0] == graph[pos2][1][pos3]) {
-                        isThere = true;
-                        break;
+                        System.out.println("Failed test 6");
+                        return false;
                     }
                 }
-                if (isThere) {
-                    break;
-                }
-            }
-            
-            if (!isThere) {
-                System.out.println("Failed test 6");
-                return false;
             }
         }
         return true;
@@ -325,9 +313,7 @@ public class GraphTheory
         int posMax = 0;
         int[] temp = new int[graph.length];
         int[] temp_pos = new int[graph.length];
-//        System.out.println("Get HashMap map");
         HashMap<Integer, HashMap<Integer, Integer>> map = getMapOfGraph(graph);
-//        System.out.println("Get HashMap mapSize");
         HashMap<Integer, Integer> mapSize = getMapOfGraphSize(graph);
         
         temp[0] = graph[0][0][0];
