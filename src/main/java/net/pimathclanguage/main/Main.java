@@ -113,6 +113,9 @@ public class Main {
             } else if (length == 5) {
                 System.out.println("GOT HERE!!! 55555555555");
                 foundHamiltonCycles[0] = gt.getStringCombinationLength5(symbols);
+            } else if (length == 6) {
+                System.out.println("GOT HERE!!! 666666666666666");
+                foundHamiltonCycles[0] = gt.getStringCombinationLength6(symbols);
             } else {
                 foundHamiltonCycles = gt.getHamiltonCircuits(graph, 1);
             }
@@ -121,7 +124,7 @@ public class Main {
         System.out.println("Convert FoundArray to StringNumberArray");
 
         String folder_path = System.getProperty("user.home")+"/Documents/string_combinations";
-        String file_path = folder_path+"/sc_"+symbols+"_"+length+(useDeterministicFunction?"_determ.":"")+".txt";
+        String file_path = folder_path+"/sc_"+symbols+"_"+length+(useDeterministicFunction?"_determ":"")+".txt";
 
         try {
             File folder = new File(folder_path);
@@ -137,7 +140,7 @@ public class Main {
                 }
                 writer.write(Integer.toString(numberArray[0]));
                 for (int i = 1; i < numberArray.length; i++) {
-                    writer.write(""+Integer.toString(numberArray[i]));
+                    writer.write(","+Integer.toString(numberArray[i]));
                 }
                 writer.write("\n");
             }
