@@ -97,6 +97,7 @@ public class Main {
         System.out.println(String.format("symbols: %d, length: %d", symbols, length));
         int[][][] graph = gt.getNewGraphStringAllCombinations(symbols, length);
         int[][] foundHamiltonCycles;
+        boolean is_fixed_function_used = false;
         if (!useDeterministicFunction) {
             foundHamiltonCycles = gt.getHamiltonCircuits(graph, 1);
         } else {
@@ -104,18 +105,23 @@ public class Main {
             if (length == 2) {
                 System.out.println("GOT HERE!!! 222");
                 foundHamiltonCycles[0] = gt.getStringCombinationLength2(symbols);
+                is_fixed_function_used = true;
             } else if (length == 3) {
                 System.out.println("GOT HERE!!! 333");
                 foundHamiltonCycles[0] = gt.getStringCombinationLength3(symbols);
+                is_fixed_function_used = true;
             } else if (length == 4) {
                 System.out.println("GOT HERE!!! 444444");
                 foundHamiltonCycles[0] = gt.getStringCombinationLength4(symbols);
+                is_fixed_function_used = true;
             } else if (length == 5) {
                 System.out.println("GOT HERE!!! 55555555555");
                 foundHamiltonCycles[0] = gt.getStringCombinationLength5(symbols);
+                is_fixed_function_used = true;
             } else if (length == 6) {
                 System.out.println("GOT HERE!!! 666666666666666");
                 foundHamiltonCycles[0] = gt.getStringCombinationLength6(symbols);
+                is_fixed_function_used = true;
             } else {
                 foundHamiltonCycles = gt.getHamiltonCircuits(graph, 1);
             }
@@ -132,12 +138,17 @@ public class Main {
             FileWriter writer = new FileWriter(file_path);
             boolean withZero = true;
             for (int[] cycle: foundHamiltonCycles) {
-                int[] numberArray;
-                if (!useDeterministicFunction) {
+//                System.out.println("cycle: "+Arrays.toString(cycle));
+                int[] numberArray = cycle;
+                if (!is_fixed_function_used) {
                     numberArray = gt.convertStringAllCombinationsToArray(cycle, symbols, length, withZero);
-                } else {
-                    numberArray = foundHamiltonCycles[0];
                 }
+//                System.out.println("numberArray: "+Arrays.toString(numberArray));
+//                if (!useDeterministicFunction) {
+//                numberArray = gt.convertStringAllCombinationsToArray(cycle, symbols, length, withZero);
+//                } else {
+//                    numberArray = foundHamiltonCycles[0];
+//                }
                 writer.write(Integer.toString(numberArray[0]));
                 for (int i = 1; i < numberArray.length; i++) {
                     writer.write(","+Integer.toString(numberArray[i]));
@@ -195,7 +206,7 @@ public class Main {
         String usage = "usages:\n" +
                 "  <program> allcombinations <symbols> <length>\n" +
                 "  <program> getstringcombo <symbols> <length>\n" +
-                "  <program> getstringcombo2 <symbols> <length>";
+                "  <program> getstringcombodeter <symbols> <length>";
 
         if (args.length < 3) {
             System.out.println(usage);
@@ -227,12 +238,12 @@ public class Main {
             main.createStringCombinations(symbols, length, false);
         } else if (modus.equals("getstringcombodeter")) {
             main.createStringCombinations(symbols, length, true);
+        }else if (modus.equals("sqrsumproblem")) {
+            MathProblems mathProblems = new MathProblems();
+            int[][] solutions = mathProblems.getSolutionsForSquareSumProblem(symbols);
         } else {
             System.out.println("2nd argument is wrong!");
             System.out.println(usage);
-            return;
         }
-
-        return;
     }
 }

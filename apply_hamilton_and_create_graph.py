@@ -82,7 +82,7 @@ def mix_string_combinations(symbols, length):
 
 	max_index = symbols**length
 	print("line before:\n{}".format(line))
-	for j in range(0, 10000):
+	for j in range(0, 10):
 		shift = np.random.randint(1, symbols**length)
 		# m1 = check_string_combinations(line, symbols, length)
 		line = np.roll(line, shift)
@@ -91,14 +91,20 @@ def mix_string_combinations(symbols, length):
 		# print("m1: {}".format(m1))
 		# print("m2: {}".format(m2))
 
-		m = np.vstack((line, np.hstack((line[(length-1)*2:], line[:(length-1)*2]))))
+		# print("line before:\n{}".format(line))
+		# m = np.vstack((line, np.hstack((line[(length-1)*2:], line[:(length-1)*2]))))
+		m2 = np.vstack((line, np.roll(line, -((length-1)*2))))
 		for i in range(1, length-1):
-			m = np.vstack((m, np.hstack((line[i:], line[:i]))))
-			m = np.vstack((m, np.hstack((line[(length-1)*2-i:], line[:(length-1)*2-i]))))
-		m = m.T
-		# print("m: {}".format(m))
+			# m = np.vstack((m, np.hstack((line[i:], line[:i]))))
+			# m = np.vstack((m, np.hstack((line[(length-1)*2-i:], line[:(length-1)*2-i]))))
+			m2 = np.vstack((m2, np.roll(line, -i), np.roll(line, -((length-1)*2-i))))
+		# m = m.T
+		m = m2.T
+		# print("m: {}".format(m.T))
+		# print("m2: {}".format(m2.T))
+		# print("m==m2:\n{}".format(m==m2))
 		found_indices = np.where(np.all(m==m[0], axis=1))[0]+length-1
-		# print("found_indices: {}".format(found_indices))
+		print("found_indices: {}".format(found_indices))
 
 		# index = found_indices[2]
 		# print("index: {}".format(index))
@@ -126,8 +132,8 @@ def mix_string_combinations(symbols, length):
 	print("line after:\n{}".format(line))
 
 
-symbols = 2
-length = 16
+symbols = 3
+length = 8
 
 # save_one_string_combination(4, 9)
 # test_brute_force_vs_deterministic_search()

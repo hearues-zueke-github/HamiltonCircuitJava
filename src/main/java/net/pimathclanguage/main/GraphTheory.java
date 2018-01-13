@@ -68,15 +68,14 @@ public class GraphTheory
         int size = array.length;
         int[] output = new int[size];
 
-        int[] first = new int[length];
-
         for (int loop = 0; loop < length-1; loop++) {
             output[loop] = (array[size-length+1+loop]+symbols-1) % symbols;
         }
+
         for (int loop = 0; loop < size-length+1; loop++) {
             output[length-1+loop] = (array[loop]+symbols-1) % symbols + (withZero ? 0 : 1);
         }
-        
+
         return output;
     }
     
@@ -378,6 +377,7 @@ public class GraphTheory
                 }
             }
         }
+
         return true;
     }
     
@@ -476,8 +476,16 @@ public class GraphTheory
             System.out.println("");
         }
     }
-    
+
     public int[][] getHamiltonCircuits(int[][][] graph, int amount) {
+        return getHamiltonCircuits(graph, amount, 0, true);
+    }
+
+    public int[][] getHamiltonPath(int[][][] graph, int amount) {
+        return getHamiltonCircuits(graph, amount, 0, false);
+    }
+
+    public int[][] getHamiltonCircuits(int[][][] graph, int amount, int start_idx, boolean is_circuit) {
         if (amount < 0) {
             return null;
         }
@@ -493,7 +501,7 @@ public class GraphTheory
         HashMap<Integer, HashMap<Integer, Integer>> map = getMapOfGraph(graph);
         HashMap<Integer, Integer> mapSize = getMapOfGraphSize(graph);
         
-        temp[0] = graph[0][0][0];
+        temp[0] = graph[start_idx][0][0];
         for (int loop = 0; loop < temp_pos.length; loop++) {
             temp_pos[loop] = -1;
         }
@@ -509,18 +517,22 @@ public class GraphTheory
                 pos++;
                 if ((posMax < pos) && (pos % 1000 == 0)) {
                     posMax = pos;
-                     System.out.println("Best found depth: " + posMax);
+                    System.out.println("Best found depth: " + posMax);
                 }
                 if (pos >= temp.length - 1) {
                     boolean isFound = false;
 
-                    for (int[][] x : graph) {
-                        if (x[0][0] == temp[pos]) {
-                            if (findValueInArray(x[1], temp[0])) {
-                                isFound = true;
-                                break;}
-                            else {
-                                break;
+                    if (!is_circuit) {
+                        isFound = true;
+                    } else {
+                        for (int[][] x : graph) {
+                            if (x[0][0] == temp[pos]) {
+                                if (findValueInArray(x[1], temp[0])) {
+                                    isFound = true;
+                                    break;}
+                                else {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -539,7 +551,20 @@ public class GraphTheory
                 }
             }
         }
-        
+
+        if (found == 0) {
+            System.out.println("nothing found for start_idx "+start_idx);
+            return null;
+        }
+
+        if (found < amount) {
+            int[][] refactorFoundCircuits = new int[found][];
+            for (int i = 0; i < found; i++) {
+                refactorFoundCircuits[i] = foundCircuits[i];
+            }
+            foundCircuits = refactorFoundCircuits;
+        }
+
         return foundCircuits;
     }
     
